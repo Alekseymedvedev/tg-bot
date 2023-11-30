@@ -1,7 +1,7 @@
 const soap = require('soap');
 
 
-const rosskoApi =  () => {
+const rosskoApi =  (chatId,bot) => {
     const connect = {
         wsdl: 'http://api.rossko.ru/service/v2.1/GetOrders',
         options: {
@@ -15,7 +15,6 @@ const rosskoApi =  () => {
         start_date: `2023-11-28`,
         end_date: `2023-11-28`
     };
-
    soap.createClient(connect.wsdl, connect.options, (err, client) => {
         if (err) {
             console.error(err);
@@ -26,9 +25,7 @@ const rosskoApi =  () => {
                 console.error(err);
                 return;
             }
-             if (result.OrdersResult.OrdersList.Order[0].delivery_date) {
-                 return result.OrdersResult.OrdersList.Order
-            }
+            bot.sendMessage(chatId, result.OrdersResult.OrdersList.Order[0].delivery_date)
         });
     });
 }

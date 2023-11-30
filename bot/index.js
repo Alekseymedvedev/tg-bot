@@ -7,15 +7,13 @@ const rosskoApi = require('./api');
 
 
 const start = async () => {
-//Подключение к БД
-
-    try {
-        await sequelize.authenticate()
-        await sequelize.sync()
-    } catch (e) {
-        console.log('Подключение к бд сломалось', e)
-    }
-
+    //Подключение к БД
+    // try {
+    //     await sequelize.authenticate()
+    //     await sequelize.sync()
+    // } catch (e) {
+    //     console.log('Подключение к бд сломалось', e)
+    // }
 
     bot.on('message', async msg => {
         const text = msg.text;
@@ -23,30 +21,15 @@ const start = async () => {
 
         try {
             if (text === '/start') {
-                await CalendarModel.create({chatId})
-
-                const bbb =  rosskoApi
-                return bot.sendMessage(chatId, `Добро пожаловать в телеграм бот ${bbb}`);
-
+                // await CalendarModel.create({chatId})
+                rosskoApi(chatId,bot)
             }
-            // if (text === '/info') {
-            //     const user = await UserModel.findOne({chatId})
-            //     return bot.sendMessage(chatId, `Тебя зовут ${msg.from.first_name} ${msg.from.last_name}, в игре у тебя правильных ответов ${user.right}, неправильных ${user.wrong}`);
-            // }
-            // if (text === '/game') {
-            //     return startGame(chatId);
-            // }
-            return bot.sendMessage(chatId, 'Я тебя не понимаю, попробуй еще раз!)');
+            // return bot.sendMessage(chatId, 'Я тебя не понимаю, попробуй еще раз!)');
         } catch (e) {
             return bot.sendMessage(chatId, 'Произошла какая то ошибка!)');
         }
 
     })
-
-    // bot.on('message', (msg) => {
-    //     const chatId = msg.chat.id;
-    //     bot.sendMessage(chatId, 'Received your message');
-    // });
 }
 
 start()
