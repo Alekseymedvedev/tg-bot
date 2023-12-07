@@ -2,7 +2,7 @@ import React, {FC, memo} from 'react'
 import cls from './form.module.scss'
 
 
-const time=[
+const time = [
     '9.00',
     '9.30',
     '10.00',
@@ -20,23 +20,27 @@ const time=[
     '16.00',
     '16.30',
 ]
+
 interface IType {
     children?: any
-    onSave:()=>void
-    onReset:()=>void
+    onSave: () => void
+    onReset: () => void
 }
-export const Form: FC<IType> = memo(({children,onSave,onReset}) => {
+
+export const Form: FC<IType> = memo(({children, onSave, onReset}) => {
     return (
         <div>
-            <input type="text" placeholder={'машина'}/>
-            <input type="text" placeholder={'Что делаем'}/>
-            <select>
-                {
-                    time.map(item=>
-                        <option key={item} value={item}>{item}</option>
-                    )
-                }
-            </select>
+            <div className={cls.box}>
+                <input className={cls.input} type="text" placeholder={'машина'}/>
+                <input className={cls.input} type="text" placeholder={'Что делаем'}/>
+                <select className={cls.select}>
+                    {
+                        time.map(item =>
+                            <option key={item} value={item}>{item}</option>
+                        )
+                    }
+                </select>
+            </div>
             <button onClick={onReset}>Отменить</button>
             <button onClick={onSave}>Сохранить</button>
         </div>

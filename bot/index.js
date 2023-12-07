@@ -23,6 +23,13 @@ const start = async () => {
             if (text === '/start') {
                 // await CalendarModel.create({chatId})
                 rosskoApi(chatId,bot)
+                bot.sendMessage(chatId, 'запись',{
+                    reply_markup:{
+                        inline_keyboard:[
+                            [{text:'text', web_app:{url:'https://tg-bot-f97v-git-main-alekseymedvedev.vercel.app/'}}]
+                        ]
+                    }
+                })
             }
             // return bot.sendMessage(chatId, 'Я тебя не понимаю, попробуй еще раз!)');
         } catch (e) {

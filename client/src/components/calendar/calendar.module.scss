@@ -3,6 +3,10 @@
   grid-template-columns: repeat(7, 25px);
   justify-content: center;
 }
+.box{
+  display: flex;
+  gap: 24px;
+}
 .btn{
   width: 25px;
   height: 25px;

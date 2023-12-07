@@ -52,7 +52,7 @@ export const Calendar: FC<IType> = ({children}) => {
     }
     return (
         <>
-            <div className="">
+            <div className={cls.box}>
                 <button onClick={prevMonthHandler}>пред</button>
                 <div className="">{months[currentMonth]}</div>
                 <button onClick={nextMonthHandler}>след</button>

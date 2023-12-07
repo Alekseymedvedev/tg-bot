@@ -4,14 +4,9 @@ import {Calendar} from "./components/calendar/calendar";
 
 
 function App() {
-
-
     return (
-        <div className="App">
+        <div className={'container'}>
             <Calendar/>
-
-
-
         </div>
     );
 }
