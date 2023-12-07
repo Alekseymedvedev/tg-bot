@@ -29,7 +29,7 @@ interface IType {
 
 export const Form: FC<IType> = memo(({children, onSave, onReset}) => {
     return (
-        <div>
+        <div className={'container'}>
             <div className={cls.box}>
                 <input className={cls.input} type="text" placeholder={'машина'}/>
                 <input className={cls.input} type="text" placeholder={'Что делаем'}/>
