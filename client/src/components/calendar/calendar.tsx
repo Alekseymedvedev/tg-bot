@@ -3,6 +3,7 @@ import cls from './calendar.module.scss'
 import {Modal} from "../modal/modal";
 import {createPortal} from "react-dom";
 import {Form} from "../form/form";
+import axios from "axios";
 
 interface IType {
     children?: any
@@ -50,6 +51,16 @@ export const Calendar: FC<IType> = ({children}) => {
     const prevMonthHandler = () => {
         if (currentMonth > 0) setCurrentMonth(currentMonth - 1)
     }
+    const saveHandler = () => {
+        const data = {
+            date: 1,
+            time: 2,
+            car: 'opel',
+            text: 'asdf',
+        }
+        axios.post('http://localhost:5000/',data)
+
+    }
     return (
         <>
             <div className={cls.box}>
@@ -75,7 +86,7 @@ export const Calendar: FC<IType> = ({children}) => {
                 }
             </div>
             {openModal && createPortal(
-               <Form onSave={()=>console.log('save')} onReset={()=>setOpenModal(false)}/>,document.body
+               <Form onSave={saveHandler} onReset={()=>setOpenModal(false)}/>,document.body
             )}
         </>
     )
