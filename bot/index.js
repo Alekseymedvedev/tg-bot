@@ -22,21 +22,22 @@ const start = async () => {
     try {
         const app = express();
         const port = 5000;
-        // let notification
+
        app.use(bodyParser.json());
+        app.use(cors());
         app.post('/', (req, res) => {
             res.set('Access-Control-Allow-Origin', '*')
-            console.log(req.body);
+            console.log(req.body)
              CalendarModel.create(req.body)
             res.status(200).send('');
         });
-        app.use(cors());
+
         app.get('/', (req, res) => {
             res.set('Access-Control-Allow-Origin', '*')
-            return res.send('{notification}')
+            const calendar =  CalendarModel.findAll()
+            console.log(JSON.stringify(calendar));
+            return res.send(JSON.stringify(calendar))
         });
-
-
         app.listen(port, () => {
             console.log(`Server is listening on port ${port}`);
         });

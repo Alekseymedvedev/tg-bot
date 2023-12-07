@@ -59,6 +59,8 @@ export const Calendar: FC<IType> = ({children}) => {
             text: 'asdf',
         }
         axios.post('http://localhost:5000/',data)
+        const res = axios.get('http://localhost:5000/')
+        console.log(res)
 
     }
     return (
