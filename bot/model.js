@@ -1,7 +1,7 @@
 const sequelize = require('./db')
 const {DataTypes}=require('sequelize')
 
-const Calendar = sequelize.define('calendar',{
+const Calendar = sequelize.define('calendars',{
     id: {type: DataTypes.INTEGER, primaryKey: true, unique: true, autoIncrement: true},
     // chatId: {type: DataTypes.STRING, unique: true},
     date: {type: DataTypes.INTEGER},

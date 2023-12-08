@@ -51,17 +51,15 @@ export const Calendar: FC<IType> = ({children}) => {
     const prevMonthHandler = () => {
         if (currentMonth > 0) setCurrentMonth(currentMonth - 1)
     }
-    const saveHandler = () => {
+    const saveHandler = async  () => {
         const data = {
             date: 1,
             time: 2,
             car: 'opel',
             text: 'asdf',
         }
-        axios.post('http://localhost:5000/',data)
-        const res = axios.get('http://localhost:5000/')
-        console.log(res)
-
+        await axios.post('http://localhost:5000/api/record',data)
+        const res = await axios.get('http://localhost:5000/api/record')
     }
     return (
         <>
@@ -81,7 +79,7 @@ export const Calendar: FC<IType> = ({children}) => {
                 {
                     arrDays.map(item => {
                             return item === 0 ?
-                                <div></div>
+                                <button></button>
                                 : <button className={cls.btn} onClick={()=>setOpenModal(true)}>{item}</button>
                         }
                     )
