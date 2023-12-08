@@ -23,17 +23,20 @@ const time = [
 
 interface IType {
     children?: any
-    onSave: () => void
-    onReset: () => void
+    onSave?: () => void
+    onReset?: () => void
+    inputCar?: {}
+    inputWork?: {}
+    selectTime?: {}
 }
 
-export const Form: FC<IType> = memo(({children, onSave, onReset}) => {
+export const Form: FC<IType> = memo(({children, onSave, onReset,inputCar,inputWork,selectTime}) => {
     return (
-        <div className={'container'}>
+        <div>
             <div className={cls.box}>
-                <input className={cls.input} type="text" placeholder={'машина'}/>
-                <input className={cls.input} type="text" placeholder={'Что делаем'}/>
-                <select className={cls.select}>
+                <input className={cls.input} {...inputCar} type="text" placeholder={'машина'}/>
+                <input className={cls.input} {...inputWork} type="text" placeholder={'Что делаем'}/>
+                <select className={cls.select} {...selectTime}>
                     {
                         time.map(item =>
                             <option key={item} value={item}>{item}</option>

@@ -4,6 +4,7 @@ import {Modal} from "../modal/modal";
 import {createPortal} from "react-dom";
 import {Form} from "../form/form";
 import axios from "axios";
+import {Day} from "../day/day";
 
 interface IType {
     children?: any
@@ -14,15 +15,13 @@ const weekday = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс']
 const months = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
 
 export const Calendar: FC<IType> = ({children}) => {
-    const [openModal, setOpenModal] = useState(false)
     const [countDays, setCountDays] = useState(0)
     const [currentMonth, setCurrentMonth] = useState(0)
     const [currentYear, setCurrentYear] = useState(2023)
     const [arrDays, setArrDays] = useState<number[]>([])
     const weekdayFirstDay = new Date(currentYear, currentMonth, 1).toLocaleDateString('ru-RU', {weekday: 'short'});
-
+    console.log(new Date(2024-1-23))
     useEffect(() => {
-
         setCurrentMonth(date.getMonth())
     }, [])
     useEffect(() => {
@@ -40,7 +39,6 @@ export const Calendar: FC<IType> = ({children}) => {
         setCountDays(new Date(currentYear, currentMonth + 1, 0).getDate())
     }, [countDays, currentMonth])
     const nextMonthHandler = () => {
-        console.log(currentMonth)
         if (currentMonth < 11) {
             setCurrentMonth(currentMonth + 1)
         } else {
@@ -51,16 +49,7 @@ export const Calendar: FC<IType> = ({children}) => {
     const prevMonthHandler = () => {
         if (currentMonth > 0) setCurrentMonth(currentMonth - 1)
     }
-    const saveHandler = async  () => {
-        const data = {
-            date: 1,
-            time: 2,
-            car: 'opel',
-            text: 'asdf',
-        }
-        await axios.post('http://localhost:5000/api/record',data)
-        const res = await axios.get('http://localhost:5000/api/record')
-    }
+
     return (
         <>
             <div className={cls.box}>
@@ -70,24 +59,24 @@ export const Calendar: FC<IType> = ({children}) => {
             </div>
 
             <div className={cls.calendar}>
-
                 {
                     weekday.map(item =>
                         <div>{item}</div>
                     )
                 }
                 {
-                    arrDays.map(item => {
-                            return item === 0 ?
-                                <button></button>
-                                : <button className={cls.btn} onClick={()=>setOpenModal(true)}>{item}</button>
-                        }
-                    )
+                    arrDays.map(item => <Day date={`${currentYear}-${currentMonth+1}-${item}`} day={item}/> )
                 }
+                {/*{*/}
+                {/*    arrDays.map(item => {*/}
+                {/*            return item === 0 ?*/}
+                {/*                <button></button>*/}
+                {/*                : <button className={cls.btn} onClick={() => setOpenModal(true)}>{item}</button>*/}
+                {/*        }*/}
+                {/*    )*/}
+                {/*}*/}
             </div>
-            {openModal && createPortal(
-               <Form onSave={saveHandler} onReset={()=>setOpenModal(false)}/>,document.body
-            )}
+
         </>
     )
 }
