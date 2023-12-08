@@ -8,36 +8,23 @@ import {useInput} from "../../hooks/useInput";
 import {useSelect} from "../../hooks/useSelect";
 import deleteIcon from "../../images/delete-svgrepo-com.svg";
 import editIcon from "../../images/edit-svgrepo-com.svg";
+import {IData} from "../calendar/calendar";
 
 interface IType {
     day?: any
     date?: any
+    data: IData[]
 }
 
-interface IData {
-    car: string
-    time: string
-    date: string
-}
 
-export const Day: FC<IType> = memo(({date, day}) => {
+
+export const Day: FC<IType> = memo(({data,date, day}) => {
     const [openModal, setOpenModal] = useState(false)
-    const [data, setData] = useState<IData[]>([])
     const inputCar = useInput('')
     const inputWork = useInput('')
     const selectTime = useSelect()
     // console.log(data?.find((item: any) => item?.date === date)?.car)
-    const fetchData = async () => {
-        try {
-            const response = await axios.get('http://localhost:5000/api/record/')
-            setData(response.data)
-        } catch (e: any) {
-            console.log(e)
-        }
-    }
-    useEffect(() => {
-        fetchData()
-    }, [])
+
 
     const saveHandler = async () => {
         const data = {
@@ -71,10 +58,10 @@ export const Day: FC<IType> = memo(({date, day}) => {
                             <div className={cls.box}>
                                 <div className={cls.car}>
                                     <div>{data?.find(item => item?.date === date)?.date}</div>
-                                    <div>&nbsp;приедет&nbsp;{data?.find(item => item?.date === date)?.car}&nbsp;</div>
+                                    <div>&nbsp;{data?.find(item => item?.date === date)?.car}&nbsp;</div>
                                     <div>в&nbsp;{data?.find(item => item?.date === date)?.time}</div>
                                 </div>
-                               <div>
+                               <div className={cls.boxBtn}>
                                    <button>
                                        <img src={editIcon} alt=""/>
                                    </button>

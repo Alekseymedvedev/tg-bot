@@ -14,7 +14,12 @@
   margin-bottom: 16px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   font-weight: 500;
+}
+.boxBtn{
+  display: flex;
+  gap: 4px;
 }
 .car{
   display: flex;

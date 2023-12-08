@@ -6,21 +6,34 @@ import {Form} from "../form/form";
 import axios from "axios";
 import {Day} from "../day/day";
 
-interface IType {
-    children?: any
+export interface IData {
+    car: string
+    time: string
+    date: string
 }
-
 const date = new Date()
 const weekday = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс']
 const months = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
 
-export const Calendar: FC<IType> = ({children}) => {
+export const Calendar = () => {
+    const [data, setData] = useState<IData[]>([])
+
     const [countDays, setCountDays] = useState(0)
     const [currentMonth, setCurrentMonth] = useState(0)
     const [currentYear, setCurrentYear] = useState(2023)
     const [arrDays, setArrDays] = useState<number[]>([])
     const weekdayFirstDay = new Date(currentYear, currentMonth, 1).toLocaleDateString('ru-RU', {weekday: 'short'});
-    console.log(new Date(2024-1-23))
+    const fetchData = async () => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_URL}/record`)
+            setData(response.data)
+        } catch (e: any) {
+            console.log(e)
+        }
+    }
+    useEffect(() => {
+        fetchData()
+    }, [])
     useEffect(() => {
         setCurrentMonth(date.getMonth())
     }, [])
@@ -65,7 +78,7 @@ export const Calendar: FC<IType> = ({children}) => {
                     )
                 }
                 {
-                    arrDays.map(item => <Day date={`${currentYear}-${currentMonth+1}-${item}`} day={item}/> )
+                    arrDays.map(item => <Day data={data} date={`${currentYear}-${currentMonth+1}-${item}`} day={item}/> )
                 }
                 {/*{*/}
                 {/*    arrDays.map(item => {*/}
