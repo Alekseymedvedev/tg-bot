@@ -6,6 +6,8 @@ import {Modal} from "../modal/modal";
 import {Form} from "../form/form";
 import {useInput} from "../../hooks/useInput";
 import {useSelect} from "../../hooks/useSelect";
+import deleteIcon from "../../images/delete-svgrepo-com.svg";
+import editIcon from "../../images/edit-svgrepo-com.svg";
 
 interface IType {
     day?: any
@@ -73,8 +75,12 @@ export const Day: FC<IType> = memo(({date, day}) => {
                                     <div>в&nbsp;{data?.find(item => item?.date === date)?.time}</div>
                                 </div>
                                <div>
-                                   <button>Редактировать</button>
-                                   <button>Удалить</button>
+                                   <button>
+                                       <img src={editIcon} alt=""/>
+                                   </button>
+                                   <button>
+                                       <img src={deleteIcon} alt=""/>
+                                   </button>
                                </div>
                             </div>
                             : <div>Запись на этот день пока отсутствует</div>
