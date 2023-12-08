@@ -63,10 +63,10 @@ export const Day: FC<IType> = memo(({data,date, day}) => {
                                 </div>
                                <div className={cls.boxBtn}>
                                    <button>
-                                       <img src={editIcon} alt=""/>
+                                       <img src={editIcon} alt="Редактировать"/>
                                    </button>
                                    <button>
-                                       <img src={deleteIcon} alt=""/>
+                                       <img src={deleteIcon} alt="Удалить"/>
                                    </button>
                                </div>
                             </div>
