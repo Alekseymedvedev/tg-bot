@@ -67,11 +67,17 @@ export const Day: FC<IType> = memo(({date, day}) => {
                     {
                         data && data?.find((item: any) => item?.date === date) ?
                             <div className={cls.box}>
-                                <div className={cls.box}>{data?.find(item => item?.date === date)?.date}</div>
-                                <div className={cls.box}>предет {data?.find(item => item?.date === date)?.car} </div>
-                                <div className={cls.box}>в {data?.find(item => item?.date === date)?.time}</div>
+                                <div className={cls.car}>
+                                    <div>{data?.find(item => item?.date === date)?.date}</div>
+                                    <div>&nbsp;приедет&nbsp;{data?.find(item => item?.date === date)?.car}&nbsp;</div>
+                                    <div>в&nbsp;{data?.find(item => item?.date === date)?.time}</div>
+                                </div>
+                               <div>
+                                   <button>Редактировать</button>
+                                   <button>Удалить</button>
+                               </div>
                             </div>
-                            : null
+                            : <div>Запись на этот день пока отсутствует</div>
                     }
                     <Form
                         selectTime={selectTime}
