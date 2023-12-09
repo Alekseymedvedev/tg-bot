@@ -7,9 +7,11 @@ import axios from "axios";
 import {Day} from "../day/day";
 
 export interface IData {
+    id:number
     car: string
     time: string
     date: string
+    text: string
 }
 const date = new Date()
 const weekday = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс']
