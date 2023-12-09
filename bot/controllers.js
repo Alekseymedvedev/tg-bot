@@ -28,7 +28,7 @@ class RecordController {
 
     async updateRecord(req, res) {
         const id = req.params.id
-        await CalendarModel.update({
+        await CalendarModel.update(req.body,{
             where: {
                 id
             }

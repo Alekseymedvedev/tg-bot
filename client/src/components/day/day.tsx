@@ -23,7 +23,7 @@ export const Day: FC<IType> = memo(({data,date, day}) => {
     const inputCar = useInput('')
     const inputWork = useInput('')
     const selectTime = useSelect()
-    // console.log(data?.find((item: any) => item?.date === date)?.car)
+     console.log(data?.filter((item: any) => item?.date === date))
 
 
     const saveHandler = async () => {
@@ -33,7 +33,7 @@ export const Day: FC<IType> = memo(({data,date, day}) => {
             car: inputCar.value,
             text: inputWork.value,
         }
-        await axios.post('http://localhost:5000/api/record', data)
+        await axios.post(`${process.env.REACT_APP_URL}/record`, data)
     }
     const recordHandler = async (id: any) => {
         setOpenModal(true)
@@ -54,22 +54,25 @@ export const Day: FC<IType> = memo(({data,date, day}) => {
             {openModal && createPortal(
                 <Modal>
                     {
-                        data && data?.find((item: any) => item?.date === date) ?
-                            <div className={cls.box}>
-                                <div className={cls.car}>
-                                    <div>{data?.find(item => item?.date === date)?.date}</div>
-                                    <div>&nbsp;{data?.find(item => item?.date === date)?.car}&nbsp;</div>
-                                    <div>в&nbsp;{data?.find(item => item?.date === date)?.time}</div>
+                        data && data?.filter((item: any) => item?.date === date) ?
+                                data?.filter((item: any) => item?.date === date).map((item:any)=>
+                                <div className={cls.box}>
+                                    <div className={cls.car}>
+                                        <div>{item.date}</div>
+                                        <div>&nbsp;{item.car}&nbsp;</div>
+                                        <div>в&nbsp;{item.time}</div>
+                                    </div>
+                                    <div className={cls.boxBtn}>
+                                        <button>
+                                            <img src={editIcon} alt="Редактировать"/>
+                                        </button>
+                                        <button>
+                                            <img src={deleteIcon} alt="Удалить"/>
+                                        </button>
+                                    </div>
                                 </div>
-                               <div className={cls.boxBtn}>
-                                   <button>
-                                       <img src={editIcon} alt="Редактировать"/>
-                                   </button>
-                                   <button>
-                                       <img src={deleteIcon} alt="Удалить"/>
-                                   </button>
-                               </div>
-                            </div>
+                            )
+
                             : <div>Запись на этот день пока отсутствует</div>
                     }
                     <Form
