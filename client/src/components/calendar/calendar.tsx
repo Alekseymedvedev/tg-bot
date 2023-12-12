@@ -19,12 +19,12 @@ const months = ['Январь', 'Февраль', 'Март', 'Апрель', '�
 
 export const Calendar = () => {
     const [data, setData] = useState<IData[]>([])
-
     const [countDays, setCountDays] = useState(0)
     const [currentMonth, setCurrentMonth] = useState(0)
     const [currentYear, setCurrentYear] = useState(2023)
     const [arrDays, setArrDays] = useState<number[]>([])
     const weekdayFirstDay = new Date(currentYear, currentMonth, 1).toLocaleDateString('ru-RU', {weekday: 'short'});
+
     const fetchData = async () => {
         try {
             const response = await axios.get(`${process.env.REACT_APP_URL}/record`)
@@ -72,24 +72,15 @@ export const Calendar = () => {
                 <div className="">{months[currentMonth]}</div>
                 <button onClick={nextMonthHandler}>след</button>
             </div>
-
             <div className={cls.calendar}>
                 {
-                    weekday.map(item =>
-                        <div>{item}</div>
-                    )
+                    weekday.map(item => <div key={item}>{item}</div>)
                 }
                 {
-                    arrDays.map(item => <Day data={data} date={`${currentYear}-${currentMonth+1}-${item}`} day={item}/> )
+                    arrDays.map((item,index:number) =>
+                        <Day key={item+index} data={data} date={`${currentYear}-${currentMonth+1}-${item}`} day={item}/>
+                    )
                 }
-                {/*{*/}
-                {/*    arrDays.map(item => {*/}
-                {/*            return item === 0 ?*/}
-                {/*                <button></button>*/}
-                {/*                : <button className={cls.btn} onClick={() => setOpenModal(true)}>{item}</button>*/}
-                {/*        }*/}
-                {/*    )*/}
-                {/*}*/}
             </div>
 
         </>

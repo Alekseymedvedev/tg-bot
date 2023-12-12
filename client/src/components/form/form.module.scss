@@ -1,7 +1,13 @@
 .box{
+  margin-bottom: 8px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 8px;
+}
+.boxBtn{
+  display: flex;
+  justify-content: flex-end;
+  gap: 4px;
 }
 
 .input{
@@ -9,7 +15,13 @@
   border-radius: 4px;
 }
 .select{
-  max-width: 120px;
+  margin-left: auto;
+  max-width: 160px;
   padding: 8px 16px;
   border-radius: 4px;
+}
+.error{
+  color: red;
+  font-size: 16px;
+  font-weight: 500;
 }

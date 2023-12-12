@@ -19,24 +19,41 @@ const time = [
     '15.30',
     '16.00',
     '16.30',
+    '17.00',
+    '17.30',
+    '18.00',
+    '18.30',
+    '19.00',
 ]
 
 interface IType {
-    children?: any
     onSave?: () => void
     onReset?: () => void
-    inputCar?: {}
-    inputWork?: {}
-    selectTime?: {}
+    inputCar: {
+        value: any
+        onChange: (e: any) => void
+    }
+    inputWork: {
+        value: any
+        onChange: (e: any) => void
+    }
+    selectTime: {
+        value: any
+        onChange: (e: any) => void
+    }
+    error: boolean
 }
 
-export const Form: FC<IType> = memo(({children, onSave, onReset,inputCar,inputWork,selectTime}) => {
+export const Form: FC<IType> = memo(({ onSave, onReset, inputCar, inputWork, selectTime, error}) => {
     return (
         <div>
             <div className={cls.box}>
-                <input className={cls.input} {...inputCar} type="text" placeholder={'машина'}/>
-                <input className={cls.input} {...inputWork} type="text" placeholder={'Что делаем'}/>
-                <select className={cls.select} {...selectTime}>
+                <input className={cls.input} value={inputCar.value} onChange={inputCar.onChange} type="text"
+                       placeholder={'машина'}/>
+                <input className={cls.input} value={inputWork.value} onChange={inputWork.onChange} type="text"
+                       placeholder={'Что делаем'}/>
+                <select className={cls.select} value={selectTime.value} onChange={selectTime.onChange}>
+                    <option>выберите время</option>
                     {
                         time.map(item =>
                             <option key={item} value={item}>{item}</option>
@@ -44,8 +61,13 @@ export const Form: FC<IType> = memo(({children, onSave, onReset,inputCar,inputWo
                     }
                 </select>
             </div>
-            <button onClick={onReset}>Отменить</button>
-            <button onClick={onSave}>Сохранить</button>
+            {
+                (error) && <div className={cls.error}>нужно хотя бы выбрать время и машину</div>
+            }
+            <div className={cls.boxBtn}>
+                <button onClick={onReset}>Отменить</button>
+                <button onClick={onSave}>Сохранить</button>
+            </div>
         </div>
     )
 }) 

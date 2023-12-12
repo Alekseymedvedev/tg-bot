@@ -1,5 +1,4 @@
 require('dotenv').config()
-
 const TelegramBot = require('node-telegram-bot-api');
 const speech = require('@google-cloud/speech').v1p1beta1;
 const token = process.env.TOKEN;
@@ -36,8 +35,6 @@ const start = async () => {
         console.error('server' + error);
         process.exit(1);
     }
-
-
 }
 
 start()
@@ -98,7 +95,6 @@ bot.on('message', async msg => {
     } catch (e) {
         return bot.sendMessage(chatId, 'Произошла какая то ошибка! ' + e);
     }
-
 })
 bot.on('polling_error', (error) => {
     console.error('Polling error:', error);

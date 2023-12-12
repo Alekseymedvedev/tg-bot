@@ -28,20 +28,31 @@ class RecordController {
 
     async updateRecord(req, res) {
         const id = req.params.id
-        await CalendarModel.update(req.body,{
-            where: {
-                id
-            }
-        })
+        try{
+            await CalendarModel.update(req.body,{
+                where: {
+                    id
+                }
+            })
+            res.status(200).send(req.body)
+        }catch (e){
+            console.log(e)
+        }
     }
 
     async deleteRecord(req, res) {
         const id = req.params.id
-        await CalendarModel.destroy({
-            where: {
-                id
-            }
-        })
+        try{
+            await CalendarModel.destroy({
+                where: {
+                    id
+                }
+            })
+            res.status(200).send(req.body)
+        }catch (e){
+            console.log(e)
+        }
+
     }
 }
 

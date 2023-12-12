@@ -19,44 +19,53 @@ interface IType {
 
 export const Day: FC<IType> = memo(({data, date, day}) => {
     const [openModal, setOpenModal] = useState(false)
+    const [error, setError] = useState(false)
+    const [validateDelete, setValidateDelete] = useState(-1)
+    const [validateEdit, setValidateEdit] = useState(false)
     const [visibleText, setVisibleText] = useState(-1)
-    const inputCar = useInput('')
-    const inputWork = useInput('')
+    const inputCar = useInput('', setError)
+    const inputWork = useInput('', setError)
     const selectTime = useSelect()
-
-
+    // useEffect(()=>{
+    //     setError()
+    // },[inputCar,inputWork])
     const saveHandler = async () => {
         const data = {
             date,
             time: selectTime.value,
             car: inputCar.value,
-            text: inputWork.value,
+            text: inputWork.value
         }
-        await axios.post(`${process.env.REACT_APP_URL}/record`, data)
-            .then(() => setOpenModal(false))
+        console.log(selectTime.value)
+        if (inputCar.value !== '' && selectTime.value !== '') {
+            await axios.post(`${process.env.REACT_APP_URL}/record`, data)
+                .then(() => setOpenModal(false))
+        } else {
+            setError(true)
+        }
     }
     const updateHandler = async (id: number) => {
         const data = {
             date,
             time: selectTime.value,
             car: inputCar.value,
-            text: inputWork.value,
+            text: inputWork.value
         }
         await axios.patch(`${process.env.REACT_APP_URL}/record/${id}`, data)
-            .then(() => setOpenModal(false))
+            .then(() => {
+                setOpenModal(false)
+                setValidateEdit(false)
+            })
     }
     const deleteHandler = async (id: number) => {
         await axios.delete(`${process.env.REACT_APP_URL}/record/${id}`)
-            .then(() => setOpenModal(false))
+            .then(() => {
+                setValidateDelete(-1)
+                setOpenModal(false)
+            })
     }
     const recordHandler = async (id: any) => {
         setOpenModal(true)
-        // try {
-        //     const response = await axios.get(`http://localhost:5000/api/record/${id}`)
-        //     setData(response.data)
-        // } catch (e: any) {
-        //     console.log(e)
-        // }
     }
 
     return (
@@ -68,12 +77,14 @@ export const Day: FC<IType> = memo(({data, date, day}) => {
 
             {openModal && createPortal(
                 <Modal>
+
                     {
                         data && data?.filter((item: any) => item?.date === date).length > 0 ?
                             data?.filter((item: any) => item?.date === date).map((item: any, index: number) =>
-                                <div className={cls.box}>
+                                <div key={item.id} className={cls.box}>
                                     {
-                                        visibleText === index && <div className={cls.text}>
+                                        visibleText === index &&
+                                        <div className={cls.text}>
                                             <span className={cls.close} onClick={() => setVisibleText(-1)}>X</span>
                                             {item.text}
                                         </div>
@@ -85,12 +96,33 @@ export const Day: FC<IType> = memo(({data, date, day}) => {
                                         <div>в&nbsp;{item.time}</div>
                                     </div>
                                     <div className={cls.boxBtn}>
-                                        <button onClick={() => updateHandler(item.id)}>
+                                        <button onClick={() => setValidateEdit(true)}>
                                             <img src={editIcon} alt="Редактировать"/>
                                         </button>
-                                        <button onClick={() => deleteHandler(item.id)}>
+                                        <button onClick={() => setValidateDelete(index)}>
                                             <img src={deleteIcon} alt="Удалить"/>
                                         </button>
+
+                                       {
+                                            validateEdit &&
+                                            <div className={cls.text}>
+                                                <span className={cls.close} onClick={() => setValidateEdit(false)}>X</span>
+                                                <div>Точно?</div>
+                                                <button onClick={() => updateHandler(item.id)}>
+                                                    Сохранить
+                                                </button>
+                                            </div>
+                                        }
+                                         {
+                                            validateDelete === index &&
+                                            <div className={cls.text}>
+                                                <span className={cls.close} onClick={() => setValidateDelete(-1)}>X</span>
+                                                <div>Точно?</div>
+                                                <button onClick={() => deleteHandler(item.id)}>
+                                                    Удалить
+                                                </button>
+                                            </div>
+                                        }
                                     </div>
                                 </div>
                             )
@@ -103,6 +135,7 @@ export const Day: FC<IType> = memo(({data, date, day}) => {
                         inputCar={inputCar}
                         onSave={saveHandler}
                         onReset={() => setOpenModal(false)}
+                        error={error}
                     />
 
                 </Modal>, document.body
