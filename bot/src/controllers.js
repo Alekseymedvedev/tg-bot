@@ -1,11 +1,15 @@
-const CalendarModel = require("./model");
-
+const CalendarModel = require("./model/calendar");
+const {Bot} = require("./bot/bot");
+const bot = new Bot()
 class RecordController {
     async createRecord(req, res) {
         try{
             res.set('Access-Control-Allow-Origin', '*')
             CalendarModel.create(req.body)
             res.status(200).send(req.body)
+            if(res.status(200)){
+                bot.notification('Добалена новая запись')
+            }
         }catch (e){
             console.log(e)
         }

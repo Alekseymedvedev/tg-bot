@@ -21,7 +21,7 @@ export const Calendar = () => {
     const [data, setData] = useState<IData[]>([])
     const [countDays, setCountDays] = useState(0)
     const [currentMonth, setCurrentMonth] = useState(0)
-    const [currentYear, setCurrentYear] = useState(2023)
+    const [currentYear, setCurrentYear] = useState(2024)
     const [arrDays, setArrDays] = useState<number[]>([])
     const weekdayFirstDay = new Date(currentYear, currentMonth, 1).toLocaleDateString('ru-RU', {weekday: 'short'});
 
