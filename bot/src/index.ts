@@ -1,18 +1,20 @@
 import {Bot} from "./bot/bot";
 import {Notifications} from "./notifications/notifications";
+import {config} from "./config/config";
+
 const sequelize = require('./db')
 const express = require('express')
 const cors = require('cors')
 const recordRouter = require("./routes");
-const bot = new Bot()
-const notifications = new Notifications()
-bot.handle()
-notifications.handler()
 
 const app = express();
-const port = 5000;
+const bot = new Bot()
+const allNotifications = new Notifications()
+
 app.use(express.json());
 app.use(cors());
+bot.start()
+allNotifications.handler()
 
 
 const start = async () => {
@@ -25,8 +27,8 @@ const start = async () => {
         console.log('Подключение к бд сломалось', e)
     }
     try {
-        app.use('/api',recordRouter)
-        app.listen(port, () => console.log(`Сервер слушает порт ${port}`));
+        app.use('/api', recordRouter)
+        app.listen(config.port, () => console.log(`Сервер слушает порт ${config.port}`));
     } catch (error) {
         console.error('server' + error);
         process.exit(1);

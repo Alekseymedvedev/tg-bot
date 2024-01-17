@@ -1,23 +1,28 @@
 import {Rossko} from "./rossko";
 import {Bot} from "../bot/bot";
-const currentDate = new Date().getSeconds()
-const notificationRossko = new Rossko(currentDate)
+
 const bot = new Bot()
+const notificationRossko = new Rossko(new Date().toLocaleDateString("ru-RU"))
 
 
 export class Notifications {
     text: string
+    currentDate: string
 
     constructor() {
         this.text = ''
+        this.currentDate = new Date().toLocaleDateString("ru-RU")
+        notificationRossko.handler()
     }
 
-    async handler() {
+    handler() {
 
-        // setInterval(() => {
-        //     notificationRossko.handler()
-        //         .then(r => this.text = notificationRossko.result)
-        //         .then(() => bot.handle('this.text'))
-        // }, 10000)
+
+        notificationRossko.handler().then(()=>console.log(notificationRossko.result))
+
+        setInterval(() => {
+            //      .then(()=>bot.message(notificationRossko.result))
+        }, 5000)
     }
 }
+
