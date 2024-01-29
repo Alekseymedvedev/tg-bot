@@ -1,53 +1,46 @@
 import {Client} from "soap/lib/client";
 import {config} from "../config/config";
+import { DateFormatter } from "../services/dateFormatter";
 
 const soap = require("soap");
 
-
+const date = new DateFormatter();
 export class Rossko {
 
     private _result: string | number
     public today: string
 
     constructor(currentDate: string) {
-        this._result = 'Пустая строка'
+        this._result = 'пустая строка'
         this.today = currentDate
     }
-
-    // if (err) {
-    //     console.error(err);
-    //     return;
-    // }
+  
    async  handler() {
 
-        const aaa = this.today.toString().split('.').reverse().join('-')
+
         const connect = {
             wsdl: `${config.rosskoUrl}/GetOrders`,
         };
         const param = {
-            KEY1: `${config.rosskoKey1}`,
-            KEY2: `${config.rosskoKey2}`,
-            start_date: `2024-01-01`,
-            end_date: `${aaa}`
+            KEY1: config.rosskoKey1,
+            KEY2: config.rosskoKey2,
+            start_date: `${date.formatStartDate()}`,
+            end_date: `${date.formatDateToYYYYMMDD()}`,
         };
-       await soap.createClient(connect.wsdl,  async (err: any, client: Client) => {
-            this._result = 'dddd'
-
-             client.GetOrders(param, (err: string | undefined, result: any) => {
-                    // this.result = result.OrdersResult.OrdersList.Order[0].delivery_date
-                    // console.log(result.OrdersResult.OrdersList.Order[0].parts.part)
-                    let sum = 0
-                    for (let res of result.OrdersResult.OrdersList.Order) {
-                        for (let product of res.parts.part) {
-                            if (product.status < 8) {
-                                sum += +product.price
-                            }
-                        }
+        const client = await soap.createClientAsync(connect.wsdl);
+        const [result] = await client.GetOrdersAsync(param);
+        let sum = 0;
+       
+         if (result?.OrdersResult?.success){
+            for (let res of result?.OrdersResult?.OrdersList?.Order) {
+                for (let product of res.parts.part) {
+                    if (product.status < 8) {
+                        sum += +product.price;
                     }
-                return  this._result = sum
-                });
-            },
-        );
+                }
+            }
+         }
+        this._result = sum;
 
     }
     get result(): string | number {

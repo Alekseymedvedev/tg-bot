@@ -51,7 +51,7 @@ export class Bot {
 
         for (let value of res) {
             await bot.sendMessage(value.chatId, `Завтра ожидается ${message}`)
-            console.log(value.dataValues?.chatId)
+            
         }
     }
 
