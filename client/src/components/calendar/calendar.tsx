@@ -78,7 +78,7 @@ export const Calendar = () => {
                 }
                 {
                     arrDays.map((item,index:number) =>
-                        <Day key={item+index} data={data} date={`${item}.${currentMonth+1}.${currentYear}`} day={item}/>
+                        <Day key={item+index} data={data} date={`${item<10?`0${item}` :item}.${currentMonth<9?`0${currentMonth+1}`:`${currentMonth+1}`}.${currentYear}`} day={item}/>
                     )
                 }
             </div>
