@@ -28,7 +28,7 @@ const start = async () => {
         console.log('Подключение к бд сломалось', e)
     }
     try {
-        app.use('/api', recordRouter)
+        app.use('/api/bot', recordRouter)
         app.listen(config.port, () => console.log(`Сервер слушает порт ${config.port}`));
     } catch (error) {
         console.error('server' + error);
