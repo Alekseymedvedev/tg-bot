@@ -8,7 +8,7 @@ class RecordController {
           const record = await CalendarModel.create(req.body)
             res.status(200).send(req.body)
             if(res.status(200)){
-               await bot.message(`Добалена новая запись ${record.car} на ${record.date} в ${record.time}`,req.body)
+               await bot.message(`Добалена новая запись\n${record.car}\nна ${record.date}\nв ${record.time}\n ${record.text}`)
             }
         }catch (e){
             console.log(e)
