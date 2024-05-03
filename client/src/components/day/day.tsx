@@ -26,9 +26,7 @@ export const Day: FC<IType> = memo(({data, date, day}) => {
     const inputCar = useInput('', setError)
     const inputWork = useInput('', setError)
     const selectTime = useSelect()
-    // useEffect(()=>{
-    //     setError()
-    // },[inputCar,inputWork])
+
     const saveHandler = async () => {
         const data = {
             date,

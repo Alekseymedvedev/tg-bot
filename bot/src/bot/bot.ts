@@ -1,11 +1,11 @@
-
 import config from "../config/config";
+import {Notifications} from "../notifications/notifications";
 
 const ChatModel = require("../model/chatModel")
 const TelegramBot = require('node-telegram-bot-api');
 const token = config.token;
 const bot = new TelegramBot(token, {polling: true});
-
+const allNotifications = new Notifications()
 
 export class Bot {
     private chatId?: string | number
@@ -14,12 +14,15 @@ export class Bot {
     constructor() {
         this.chatId = ''
         this.userChatId = ''
+        this.start()
+        this.notification()
     }
 
     start() {
         bot.on('message', async (msg: any) => {
             const text = msg.text;
             this.chatId = msg.chat.id;
+
             await bot.sendMessage(this.chatId, 'Бот запущен')
             try {
                 if (text === '/start') {
@@ -46,26 +49,36 @@ export class Bot {
         });
     }
 
-   async message(message:string) {
+    async message(message: string) {
         const res = await ChatModel.findAll()
 
         for (let value of res) {
             await bot.sendMessage(value.chatId, `Завтра ожидается ${message}`)
-            
+
         }
     }
 
-    // notification() {
-    //     allNotifications.handler()
-    //         .then(async () => {
-    //             const res = await ChatModel.findAll()
-    //
-    //             for (let value of res) {
-    //                await bot.sendMessage(value.chatId, 'Завтра ')
-    //                 console.log(value.dataValues?.chatId)
-    //             }
-    //         })
-    // }
+    notification() {
+
+        setInterval(async () => {
+            const date = new Date();
+            const time = date.getHours();
+            console.log(time)
+            if (time == 13 || time == 9) {
+                allNotifications.handler()
+                    .then(async () => {
+                        console.log(allNotifications.text)
+                        const res = await ChatModel.findAll()
+
+                        for (let value of res) {
+                            await bot.sendMessage(value.chatId, `Завтра ${allNotifications.text}`)
+                            console.log(value.dataValues?.chatId)
+                        }
+                    })
+            }
+        }, 1000)
+
+    }
 
 
     voice() {

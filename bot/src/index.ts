@@ -13,8 +13,9 @@ const allNotifications = new Notifications()
 
 app.use(express.json());
 app.use(cors());
-bot.start()
-allNotifications.handler()
+// bot.start()
+// bot.notification()
+// allNotifications.handler()
 
 
 const start = async () => {

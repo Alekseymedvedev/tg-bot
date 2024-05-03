@@ -3,6 +3,7 @@ const {Bot} = require("./bot/bot");
 const bot = new Bot()
 class RecordController {
     async createRecord(req, res) {
+        console.log(req, res)
         try{
             res.set('Access-Control-Allow-Origin', '*')
             CalendarModel.create(req.body)
@@ -31,7 +32,7 @@ class RecordController {
     }
 
     async updateRecord(req, res) {
-        console.log(reg,res)
+        console.log(req,res)
         const id = req.params.id
         try{
             await CalendarModel.update(req.body,{

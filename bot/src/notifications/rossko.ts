@@ -16,8 +16,6 @@ export class Rossko {
     }
   
    async  handler() {
-
-
         const connect = {
             wsdl: `${config.rosskoUrl}/GetOrders`,
         };
@@ -30,8 +28,8 @@ export class Rossko {
         const client = await soap.createClientAsync(connect.wsdl);
         const [result] = await client.GetOrdersAsync(param);
         let sum = 0;
-       
-         if (result?.OrdersResult?.success){
+       console.log(result?.OrdersResult)
+         if (result?.OrdersResult?.success && date.tomorrow() == '07.05.2024'){
             for (let res of result?.OrdersResult?.OrdersList?.Order) {
                 for (let product of res.parts.part) {
                     if (product.status < 8) {
