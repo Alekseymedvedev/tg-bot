@@ -3,13 +3,12 @@ const {Bot} = require("./bot/bot");
 const bot = new Bot()
 class RecordController {
     async createRecord(req, res) {
-        console.log(req, res)
         try{
             res.set('Access-Control-Allow-Origin', '*')
-            CalendarModel.create(req.body)
+          const record = await CalendarModel.create(req.body)
             res.status(200).send(req.body)
             if(res.status(200)){
-                bot.notification('Добалена новая запись')
+               await bot.message(`Добалена новая запись ${record.car} на ${record.date} в ${record.time}`,req.body)
             }
         }catch (e){
             console.log(e)
@@ -32,7 +31,6 @@ class RecordController {
     }
 
     async updateRecord(req, res) {
-        console.log(req,res)
         const id = req.params.id
         try{
             await CalendarModel.update(req.body,{

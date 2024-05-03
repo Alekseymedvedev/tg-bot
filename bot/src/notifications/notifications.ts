@@ -13,6 +13,8 @@ export class Notifications {
   }
 
   async handler() {
-    await notificationRossko.handler().then(()=>this._text =`Довставка Росско на сумму: ${notificationRossko.result}`)
+    if(notificationRossko.result){
+      await notificationRossko.handler().then(()=>this._text =`Довставка Росско на сумму: ${notificationRossko.result}`)
+    }
   }
 }

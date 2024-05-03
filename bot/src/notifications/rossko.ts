@@ -28,12 +28,16 @@ export class Rossko {
         const client = await soap.createClientAsync(connect.wsdl);
         const [result] = await client.GetOrdersAsync(param);
         let sum = 0;
-       console.log(result?.OrdersResult)
-         if (result?.OrdersResult?.success && date.tomorrow() == '07.05.2024'){
+       console.log(result?.OrdersResult?.OrdersList?.Order)
+       console.log(date.tomorrow(),date.tomorrow() == result?.OrdersResult?.OrdersList?.delivery_date)
+       // && date.tomorrow() == result?.OrdersResult?.OrdersList?.delivery_date
+         if (result?.OrdersResult?.success){
             for (let res of result?.OrdersResult?.OrdersList?.Order) {
-                for (let product of res.parts.part) {
-                    if (product.status < 8) {
-                        sum += +product.price;
+                if (res?.delivery_date == date.tomorrow()){
+                    for (let product of res.parts.part) {
+                        if (product.status < 8) {
+                            sum += +product.price;
+                        }
                     }
                 }
             }

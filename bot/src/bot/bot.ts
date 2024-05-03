@@ -51,33 +51,25 @@ export class Bot {
 
     async message(message: string) {
         const res = await ChatModel.findAll()
-
         for (let value of res) {
-            await bot.sendMessage(value.chatId, `Завтра ожидается ${message}`)
-
+            await bot.sendMessage(value.chatId, `${message}`)
         }
     }
 
     notification() {
-
         setInterval(async () => {
             const date = new Date();
             const time = date.getHours();
-            console.log(time)
-            if (time == 13 || time == 9) {
+            if ((time == 16 || time == 9) && allNotifications.text) {
                 allNotifications.handler()
                     .then(async () => {
-                        console.log(allNotifications.text)
                         const res = await ChatModel.findAll()
-
                         for (let value of res) {
                             await bot.sendMessage(value.chatId, `Завтра ${allNotifications.text}`)
-                            console.log(value.dataValues?.chatId)
                         }
                     })
             }
-        }, 1000)
-
+        }, 10000)
     }
 
 
