@@ -1,5 +1,5 @@
 import {Client} from "soap/lib/client";
-import {config} from "../config/config";
+import config from "../config/config";
 import { DateFormatter } from "../services/dateFormatter";
 
 const soap = require("soap");

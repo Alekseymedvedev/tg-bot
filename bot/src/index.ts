@@ -1,6 +1,6 @@
-import {Bot} from "./bot/bot";
 import {Notifications} from "./notifications/notifications";
-import {config} from "./config/config";
+import config from "./config/config";
+import {Bot} from "./bot/bot";
 
 const sequelize = require('./db')
 const express = require('express')

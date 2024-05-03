@@ -31,6 +31,7 @@ class RecordController {
     }
 
     async updateRecord(req, res) {
+        console.log(reg,res)
         const id = req.params.id
         try{
             await CalendarModel.update(req.body,{

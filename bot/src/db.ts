@@ -1,9 +1,10 @@
 const {Sequelize} = require('sequelize')
+import config from "./config/config";
 
 module.exports = new Sequelize(
-    'tg_bot',
-    'postgres',
-    'x29021956X',
+    config.dataBase,
+    config.dataBaseUser,
+    config.dataBasePassword,
     {
         host: 'localhost',
         dialect: 'postgres',

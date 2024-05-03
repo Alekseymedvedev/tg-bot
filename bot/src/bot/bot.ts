@@ -1,5 +1,5 @@
 
-import {config} from "../config/config";
+import config from "../config/config";
 
 const ChatModel = require("../model/chatModel")
 const TelegramBot = require('node-telegram-bot-api');
