@@ -24,25 +24,25 @@ export class Bot {
             this.chatId = msg.chat.id;
 
             await bot.sendMessage(this.chatId, 'Бот запущен')
-            // try {
-            //     if (text === '/start') {
-            //         const chat = await ChatModel.findOne({where: {chatId: msg.chat.id.toString()}})
-            //         this.userChatId = chat?.dataValues?.chatId
-            //         if (!this.userChatId) {
-            //             await ChatModel.create({
-            //                 chatId: this.chatId,
-            //                 firstName: msg.chat.first_name,
-            //                 username: msg.chat.username,
-            //             })
-            //             return bot.sendMessage(this.chatId, 'Аккаунт добавлен в список уведомлений')
-            //         } else {
-            //             return bot.sendMessage(this.chatId, 'Аккаунт уже был добавлен в список уведомлений')
-            //         }
-            //     }
-            //     return bot.sendMessage(this.chatId, 'Не известная команда');
-            // } catch (e) {
-            //     return bot.sendMessage(this.chatId, 'Произошла ошибка! ' + e);
-            // }
+            try {
+                if (text === '/add-user') {
+                    const chat = await ChatModel.findOne({where: {chatId: msg.chat.id.toString()}})
+                    this.userChatId = chat?.dataValues?.chatId
+                    if (!this.userChatId) {
+                        await ChatModel.create({
+                            chatId: this.chatId,
+                            firstName: msg.chat.first_name,
+                            username: msg.chat.username,
+                        })
+                        return bot.sendMessage(this.chatId, 'Аккаунт добавлен в список уведомлений')
+                    } else {
+                        return bot.sendMessage(this.chatId, 'Аккаунт уже был добавлен в список уведомлений')
+                    }
+                }
+                return bot.sendMessage(this.chatId, 'Не известная команда');
+            } catch (e) {
+                return bot.sendMessage(this.chatId, 'Произошла ошибка! ' + e);
+            }
         })
         bot.on('polling_error', (error: any) => {
             console.error('Polling error:', error);
