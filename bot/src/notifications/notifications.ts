@@ -1,6 +1,6 @@
 import { Rossko } from "./rossko";
 import { Bot } from "../bot/bot";
-const CalendarModel = require("./model/calendar");
+const CalendarModel = require("../model/calendar");
 import {DateFormatter} from "../services/dateFormatter";
 const notificationRossko = new Rossko(new Date().toLocaleDateString("ru-RU"));
 const date = new DateFormatter()
