@@ -23,10 +23,9 @@ export class Bot {
             const text = msg.text;
             this.chatId = msg.chat.id;
 
-            await bot.sendMessage(this.chatId, 'Бот запущен')
             try {
                 if (text === '/start'){
-                    await bot.sendMessage(this.chatId, 'Бот запущен')
+                    return await bot.sendMessage(this.chatId, 'Бот запущен')
                 }
                 if (text === '/adduser') {
                     const chat = await ChatModel.findOne({where: {chatId: msg.chat.id.toString()}})
