@@ -28,9 +28,6 @@ export class Rossko {
         const client = await soap.createClientAsync(connect.wsdl);
         const [result] = await client.GetOrdersAsync(param);
         let sum = 0;
-       console.log(result?.OrdersResult?.OrdersList?.Order)
-       console.log(date.tomorrow(),date.tomorrow() == result?.OrdersResult?.OrdersList?.delivery_date)
-       // && date.tomorrow() == result?.OrdersResult?.OrdersList?.delivery_date
          if (result?.OrdersResult?.success){
             for (let res of result?.OrdersResult?.OrdersList?.Order) {
                 if (res?.delivery_date == date.tomorrow()){
