@@ -62,16 +62,18 @@ export class Bot {
         setInterval(async () => {
             const date = new Date();
             const time = date.getHours();
-            if ((time == 16 || time == 9) && allNotifications.text) {
+            if ((time == 16 || time == 9)) {
                 allNotifications.handler()
                     .then(async () => {
-                        const res = await ChatModel.findAll()
-                        for (let value of res) {
-                            await bot.sendMessage(value.chatId, `Завтра ${allNotifications.text}`)
+                        if (allNotifications.text){
+                            const res = await ChatModel.findAll()
+                            for (let value of res) {
+                                await bot.sendMessage(value.chatId, `Завтра ${allNotifications.text}`)
+                            }
                         }
                     })
             }
-        }, 10000)
+        }, 3600000)
     }
 
 
