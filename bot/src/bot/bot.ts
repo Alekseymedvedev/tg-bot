@@ -62,7 +62,7 @@ export class Bot {
         setInterval(async () => {
             const date = new Date();
             const time = date.getHours();
-            if ((time == 16 || time == 9)) {
+            if (time == 18) {
                 allNotifications.handler()
                     .then(async () => {
                         if (allNotifications.text){
