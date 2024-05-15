@@ -9,13 +9,9 @@ const recordRouter = require("./routes");
 
 const app = express();
 const bot = new Bot()
-const allNotifications = new Notifications()
 
 app.use(express.json());
 app.use(cors());
-// bot.start()
-// bot.notification()
-// allNotifications.handler()
 
 
 const start = async () => {

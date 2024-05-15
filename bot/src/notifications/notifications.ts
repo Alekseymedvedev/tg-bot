@@ -17,13 +17,13 @@ export class Notifications {
   async handler() {
     const calendar = await CalendarModel.findAll({where:{date:date.tomorrow()}})
     if(calendar){
-      this._text +=`Запись на завтра`
+      this._text +=`Запись `
       for (let item of calendar) {
-        this._text +=`${item.car} в ${item.time} ${item.text}`
+        this._text +=`\n${item.car} в ${item.time} ${item.text}`
       }
     }
-    if(notificationRossko.result){
-      await notificationRossko.handler().then(()=>this._text +=`Довставка Росско на сумму: ${notificationRossko.result}`)
+    if(+notificationRossko.result > 0){
+      await notificationRossko.handler().then(()=>this._text +=`Довставка Росско на сумму: ${notificationRossko.result}р`)
     }
   }
 }
